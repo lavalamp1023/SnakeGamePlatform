@@ -58,11 +58,16 @@ namespace SnakeGamePlatform
         //Use this function to move game objects and check collisions
         public void GameClock(Board board)
         {
+
             Position foodPosition = food.GetPosition();
             if (food.direction == GameObject.Direction.RIGHT)
                 foodPosition.Y = foodPosition.Y + 5;
-            else
+            else if (food.direction == GameObject.Direction.LEFT)
                 foodPosition.Y = foodPosition.Y - 5;
+            else if (food.direction == GameObject.Direction.UP)
+                foodPosition.X = foodPosition.X - 5;
+            else if (food.direction == GameObject.Direction.DOWN)
+                foodPosition.X = foodPosition.X + 5;
             food.SetPosition(foodPosition);
         }
 
@@ -76,6 +81,10 @@ namespace SnakeGamePlatform
                 food.direction = GameObject.Direction.LEFT;
             if (key == (char)ConsoleKey.RightArrow)
                 food.direction = GameObject.Direction.RIGHT;
+            if (key == (char)ConsoleKey.UpArrow)
+                food.direction = GameObject.Direction.UP;
+            if (key == (char)ConsoleKey.DownArrow)
+                food.direction = GameObject.Direction.DOWN;
         }
     }
 }
