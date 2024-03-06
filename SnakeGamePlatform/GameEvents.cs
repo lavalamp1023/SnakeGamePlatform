@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 using System.Drawing;
 using System.Media;
 using WMPLib;
+using System.Net.Mail;
+using System.Net;
+using System.Diagnostics;
 
 namespace SnakeGamePlatform
 {
@@ -19,7 +22,12 @@ namespace SnakeGamePlatform
         GameObject borderRight;
         GameObject borderLeft;
         GameObject borderDown;
+        
         GameObject[] snake = new GameObject[256];
+        TextLabel lblScore;
+        GameObject food;
+        
+        Position borderUP = new Position(10, 20);
 
         //This function is called by the game one time on initialization!
         //Here you should define game board resolution and size (x,y).
@@ -74,6 +82,15 @@ namespace SnakeGamePlatform
             //borderUpp = new GameObject(borderUP, 20, 30);
         }
 
+        GameObject GenrateNewSnakePart(int lastSnakePartX,int lastSnakePartY)
+        {
+            GameObject snake;
+            Position snakePosition = new Position(lastSnakePartX, lastSnakePartY - 20);
+            snake = new GameObject(snakePosition, 20, 20);
+            snake.SetImage(Properties.Resources.food);
+            snake.direction = GameObject.Direction.RIGHT;
+            return snake;
+        }
 
         //This function is called frequently based on the game board interval that was set when starting the timer!
         //Use this function to move game objects and check collisions
