@@ -18,7 +18,6 @@ namespace SnakeGamePlatform
         //Define game variables here! for example...
         GameObject[] snake = new GameObject[256];
         TextLabel lblScore;
-        GameObject snake;
         GameObject food;
         GameObject borderUpp;
         GameObject borderRight;
@@ -72,7 +71,7 @@ namespace SnakeGamePlatform
         // לנגן מוזיקת אכילה
         void HandleSnakeEatsnake(Board board)
         {
-            if(food.IntersectWith(snake))
+            if (food.IntersectWith(snake[0]))
             {
                 score++;
                 lblScore.SetText(score.ToString());
