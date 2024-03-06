@@ -64,11 +64,36 @@ namespace SnakeGamePlatform
 
             //Play file in loop!
             board.PlayBackgroundMusic(@"\Images\gameSound.wav");
-            
 
+            Position borderUPpos = new Position(100, 100);
+            borderUp = new GameObject(borderUPpos, 300, 10);
+
+            Position borderRightpos = new Position(100, 500);
+            borderRight = new GameObject(borderRightpos, 10, 300);
+
+            Position borderLeftpos = new Position(500, 100);
+            borderLeft = new GameObject(borderLeftpos, 300, 10);
+
+            Position borderDownpos = new Position(500, 100);
+            borderDown = new GameObject(borderDownpos, 300, 10);
+            //borderUpp = new GameObject(borderUP, 20, 30);
+
+            borderUp.SetBackgroundColor(Color.Black);
+            board.AddGameObject(borderUp);
+
+            borderRight.SetBackgroundColor(Color.Black);
+            board.AddGameObject(borderRight);
+
+            borderLeft.SetBackgroundColor(Color.Black);
+            board.AddGameObject(borderLeft);
+
+            borderDown.SetBackgroundColor(Color.Black);
+            board.AddGameObject(borderDown);
 
             //Start game timer!
-            board.StartTimer(50);
+            board.StartTimer(200);            
+
+           
         }
         
         //הפעולה בודקת אם ראש הנחש נוגע באוכל
@@ -126,20 +151,9 @@ namespace SnakeGamePlatform
         public void GameClock(Board board)
         {
 
-            borderUp.SetBackgroundColor(Color.Black);
-            board.AddGameObject(borderUp);
-
-            borderRight.SetBackgroundColor(Color.Black);
-            board.AddGameObject(borderRight);
-
-            borderLeft.SetBackgroundColor(Color.Black);
-            board.AddGameObject(borderLeft);
-
-            borderDown.SetBackgroundColor(Color.Black);
-            board.AddGameObject(borderDown);
 
 
-
+            HandleSnakeEatsnake(board);
             if (borderUp.IntersectWith(snake[0]) || borderRight.IntersectWith(snake[0]) || borderLeft.IntersectWith(snake[0]) || borderDown.IntersectWith(snake[0]))
             {
                 Position failPosition = new Position(150, 50);
@@ -162,18 +176,8 @@ namespace SnakeGamePlatform
             snake[0].SetPosition(snakePosition);
             snake[1].SetPosition(mem);
 
-            snake[0].SetPosition(snakePosition);
-            borderUpp.SetBackgroundColor(Color.Black);
-            board.AddGameObject(borderUpp);
 
-            if (borderUpp.IntersectWith(snake[0]))
-            {
-                Position failPosition = new Position(150, 50);
-                TextLabel failMessage = new TextLabel("you lost", failPosition);
-                failMessage.SetFont("Ariel", 14);
-                board.AddLabel(failMessage);
-                board.StopTimer();
-            }
+        }
 
         //This function is called by the game when the user press a key down on the keyboard.
         //Use this function to check the key that was pressed and change the direction of game objects acordingly.
