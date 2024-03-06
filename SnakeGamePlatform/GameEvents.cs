@@ -15,8 +15,10 @@ namespace SnakeGamePlatform
         //Define game variables here! for example...
         //GameObject [] snake;
         TextLabel lblScore;
+        GameObject snake;
         GameObject food;
-
+        Random r;
+        int score;
         //This function is called by the game one time on initialization!
         //Here you should define game board resolution and size (x,y).
         //Here you should initialize all variables defined above and create all visual objects on screen.
@@ -24,51 +26,87 @@ namespace SnakeGamePlatform
         //use board Object to add game objects to the game board, play background music, set interval, etc...
         public void GameInit(Board board)
         {
+            InitFood(board);
 
             //Setup board size and resolution!
             Board.resolutionFactor = 1;
             board.XSize = 600;
             board.YSize = 800;
 
-            //Adding a text label to the game board.
-            Position labelPosition = new Position(100, 20);
-            lblScore = new TextLabel("This is just an example! Use right and left arrows to change direction", labelPosition);
-            lblScore.SetFont("Ariel", 14);
-            board.AddLabel(lblScore);
-
+            
             //Adding Game Object
-            Position foodPosition = new Position(200, 100);
-            food = new GameObject(foodPosition, 20, 20);
-            food.SetImage(Properties.Resources.food);
-            food.direction = GameObject.Direction.RIGHT;
-            board.AddGameObject(food);
+            Position snakePosition = new Position(200, 100);
+            snake = new GameObject(snakePosition, 20, 20);
+            snake.SetImage(Properties.Resources.food);
+            snake.direction = GameObject.Direction.RIGHT;
+            board.AddGameObject(snake);
 
             //Play file in loop!
             board.PlayBackgroundMusic(@"\Images\gameSound.wav");
-            //Play file once!
-            board.PlayShortMusic(@"\Images\eat.wav");
+            
 
 
             //Start game timer!
             board.StartTimer(50);
         }
         
-        
+        //הפעולה בודקת אם ראש הנחש נוגע באוכל
+        //אם נוגע, אז:
+        //מעדכנים את הניקוד של השחקן
+        // מזיזים את האוכל למקום אחר
+        // לנגן מוזיקת אכילה
+        void HandleSnakeEatsnake(Board board)
+        {
+            if(food.IntersectWith(snake))
+            {
+                score++;
+                lblScore.SetText(score.ToString());
+                int x = r.Next(40, 500);
+                int y = r.Next(40, 700);
+                Position foodPosition = new Position(x, y);
+                food.SetPosition(foodPosition);
+                //Play file once!
+                board.PlayShortMusic(@"\Images\eat.wav");
+
+            }
+
+                
+        }
+        //הפעולה יוצרת את האוכל
+        //וממקמת אותו בפעם הראונה
+
+        void InitFood(Board board)
+        {
+            Position labelPosition = new Position(20, 20);
+            lblScore = new TextLabel("0", labelPosition);
+            lblScore.SetFont("Ariel", 14);
+            board.AddLabel(lblScore);
+
+            r = new Random();
+            score = 0;
+            int x = r.Next(40, 500);
+            int y = r.Next(40, 700);
+            Position foodPosition = new Position(x, y);
+            food = new GameObject(foodPosition, 20, 20);
+            food.SetImage(Properties.Resources.food);
+            board.AddGameObject(food);
+
+        }
         //This function is called frequently based on the game board interval that was set when starting the timer!
         //Use this function to move game objects and check collisions
         public void GameClock(Board board)
         {
-
-            Position foodPosition = food.GetPosition();
-            if (food.direction == GameObject.Direction.RIGHT)
-                foodPosition.Y = foodPosition.Y + 5;
-            else if (food.direction == GameObject.Direction.LEFT)
-                foodPosition.Y = foodPosition.Y - 5;
-            else if (food.direction == GameObject.Direction.UP)
-                foodPosition.X = foodPosition.X - 5;
-            else if (food.direction == GameObject.Direction.DOWN)
-                foodPosition.X = foodPosition.X + 5;
-            food.SetPosition(foodPosition);
+            HandleSnakeEatsnake(board);
+            Position snakePosition = snake.GetPosition();
+            if (snake.direction == GameObject.Direction.RIGHT)
+                snakePosition.Y = snakePosition.Y + 5;
+            else if (snake.direction == GameObject.Direction.LEFT)
+                snakePosition.Y = snakePosition.Y - 5;
+            else if (snake.direction == GameObject.Direction.UP)
+                snakePosition.X = snakePosition.X - 5;
+            else if (snake.direction == GameObject.Direction.DOWN)
+                snakePosition.X = snakePosition.X + 5;
+            snake.SetPosition(snakePosition);
         }
 
         //This function is called by the game when the user press a key down on the keyboard.
@@ -78,13 +116,13 @@ namespace SnakeGamePlatform
         public void KeyDown(Board board, char key)
         {
             if (key == (char)ConsoleKey.LeftArrow)
-                food.direction = GameObject.Direction.LEFT;
+                snake.direction = GameObject.Direction.LEFT;
             if (key == (char)ConsoleKey.RightArrow)
-                food.direction = GameObject.Direction.RIGHT;
+                snake.direction = GameObject.Direction.RIGHT;
             if (key == (char)ConsoleKey.UpArrow)
-                food.direction = GameObject.Direction.UP;
+                snake.direction = GameObject.Direction.UP;
             if (key == (char)ConsoleKey.DownArrow)
-                food.direction = GameObject.Direction.DOWN;
+                snake.direction = GameObject.Direction.DOWN;
         }
     }
 }
