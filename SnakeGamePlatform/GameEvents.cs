@@ -9,6 +9,7 @@ using WMPLib;
 using System.Net.Mail;
 using System.Net;
 using System.Diagnostics;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.TrayNotify;
 
 namespace SnakeGamePlatform
 {
@@ -22,7 +23,9 @@ namespace SnakeGamePlatform
         GameObject borderRight;
         GameObject borderLeft;
         GameObject borderDown;
-        
+        GameObject backgroundobj;
+
+
         GameObject[] snake = new GameObject[256];
         TextLabel lblScore;
         GameObject food;
@@ -41,12 +44,17 @@ namespace SnakeGamePlatform
         {
             InitFood(board);
 
-            //Setup board size and resolution!
+            //Setup board size,background and resolution!
             Board.resolutionFactor = 1;
             board.XSize = 600;
             board.YSize = 800;
+            board.SetBackgroundImage(Properties.Resources.jungle_background);
+            board.SetBackgroundColor(Color.DarkOliveGreen);
+            Position backgroundPosition = new Position(100, 60);
+            backgroundobj = new GameObject(backgroundPosition, 650,390);
+            backgroundobj.SetImage(Properties.Resources.green_background);
+            board.AddGameObject(backgroundobj);
 
-            
             //Adding Game Object
 
 
@@ -135,7 +143,6 @@ namespace SnakeGamePlatform
             board.AddGameObject(food);
 
         }
-
         GameObject GenrateNewSnakePart(int lastSnakePartX,int lastSnakePartY)
         {
             GameObject snake;

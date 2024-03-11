@@ -138,6 +138,8 @@
     </COMReference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Images\green-background.jpg" />
+    <Content Include="Images\jungle-background.jpg" />
     <Content Include="Images\kuku.mp3" />
     <Content Include="Images\kuku.wav" />
   </ItemGroup>
