@@ -65,17 +65,17 @@ namespace SnakeGamePlatform
             //Play file in loop!
             board.PlayBackgroundMusic(@"\Images\gameSound.wav");
 
-            Position borderUPpos = new Position(100, 100);
-            borderUp = new GameObject(borderUPpos, 300, 10);
+            Position borderUPpos = new Position(100, 50);
+            borderUp = new GameObject(borderUPpos, 650, 10);
 
-            Position borderRightpos = new Position(100, 500);
-            borderRight = new GameObject(borderRightpos, 10, 300);
+            Position borderRightpos = new Position(100, 700);
+            borderRight = new GameObject(borderRightpos, 10, 410);
 
-            Position borderLeftpos = new Position(500, 100);
-            borderLeft = new GameObject(borderLeftpos, 300, 10);
+            Position borderLeftpos = new Position(100, 50);
+            borderLeft = new GameObject(borderLeftpos, 10, 400);
 
-            Position borderDownpos = new Position(500, 100);
-            borderDown = new GameObject(borderDownpos, 300, 10);
+            Position borderDownpos = new Position(500,50 );
+            borderDown = new GameObject(borderDownpos, 650, 10);
             //borderUpp = new GameObject(borderUP, 20, 30);
 
             borderUp.SetBackgroundColor(Color.Black);
