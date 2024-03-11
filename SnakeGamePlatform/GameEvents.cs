@@ -10,6 +10,7 @@ using System.Net.Mail;
 using System.Net;
 using System.Diagnostics;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.TrayNotify;
+using System.Reflection;
 
 namespace SnakeGamePlatform
 {
@@ -23,10 +24,13 @@ namespace SnakeGamePlatform
         GameObject borderRight;
         GameObject borderLeft;
         GameObject borderDown;
+        
+        GameObject[] snake = new GameObject[14200];
+        int snakeSize;
         GameObject backgroundobj;
 
 
-        GameObject[] snake = new GameObject[256];
+  
         TextLabel lblScore;
         GameObject food;
         
@@ -69,20 +73,20 @@ namespace SnakeGamePlatform
             snake[1].SetImage(Properties.Resources.food);
             snake[1].direction = GameObject.Direction.RIGHT;
             board.AddGameObject(snake[1]);
-
+            snakeSize = 2;
             //Play file in loop!
             board.PlayBackgroundMusic(@"\Images\gameSound.wav");
 
-            Position borderUPpos = new Position(100, 50);
+            Position borderUPpos = new Position(100, 60);
             borderUp = new GameObject(borderUPpos, 650, 10);
 
-            Position borderRightpos = new Position(100, 700);
-            borderRight = new GameObject(borderRightpos, 10, 410);
+            Position borderRightpos = new Position(100, 710);
+            borderRight = new GameObject(borderRightpos, 10, 400);
 
-            Position borderLeftpos = new Position(100, 50);
+            Position borderLeftpos = new Position(100, 60);
             borderLeft = new GameObject(borderLeftpos, 10, 400);
 
-            Position borderDownpos = new Position(500,50 );
+            Position borderDownpos = new Position(490,60 );
             borderDown = new GameObject(borderDownpos, 650, 10);
             //borderUpp = new GameObject(borderUP, 20, 30);
 
@@ -115,6 +119,9 @@ namespace SnakeGamePlatform
             {
                 score++;
                 lblScore.SetText(score.ToString());
+                snake[snakeSize] = GenrateNewSnakePart(snake[snakeSize - 1].GetPosition().X, snake[snakeSize -1].GetPosition().Y);
+                board.AddGameObject(snake[snakeSize]);
+                snakeSize++;
                 int x = r.Next(40, 500);
                 int y = r.Next(40, 700);
                 Position foodPosition = new Position(x, y);
@@ -130,7 +137,7 @@ namespace SnakeGamePlatform
         {
             Position labelPosition = new Position(20, 20);
             lblScore = new TextLabel("0", labelPosition);
-            lblScore.SetFont("Ariel", 14);
+            lblScore.SetFont("Ariel", 30);
             board.AddLabel(lblScore);
 
             r = new Random();
@@ -146,32 +153,22 @@ namespace SnakeGamePlatform
         GameObject GenrateNewSnakePart(int lastSnakePartX,int lastSnakePartY)
         {
             GameObject snake;
-            Position snakePosition = new Position(lastSnakePartX, lastSnakePartY - 20);
+            Position snakePosition = new Position(lastSnakePartX, lastSnakePartY);
             snake = new GameObject(snakePosition, 20, 20);
             snake.SetImage(Properties.Resources.food);
             snake.direction = GameObject.Direction.RIGHT;
             return snake;
         }
 
-        //This function is called frequently based on the game board interval that was set when starting the timer!
-        //Use this function to move game objects and check collisions
-        public void GameClock(Board board)
+        void SnakeMovment()
         {
-
-
-
-            HandleSnakeEatsnake(board);
-            if (borderUp.IntersectWith(snake[0]) || borderRight.IntersectWith(snake[0]) || borderLeft.IntersectWith(snake[0]) || borderDown.IntersectWith(snake[0]))
+            for (int i = snakeSize-1;i > 0;i--)
             {
-                Position failPosition = new Position(150, 50);
-                failMessage = new TextLabel("you lost", failPosition);
-                failMessage.SetFont("Ariel", 14);
-                board.AddLabel(failMessage);
-                board.StopTimer();
+                Position snakePositions = snake[i-1].GetPosition();
+                snake[i].SetPosition(snakePositions);
+                
             }
-
             Position snakePosition = snake[0].GetPosition();
-            Position mem = snake[0].GetPosition();
             if (snake[0].direction == GameObject.Direction.RIGHT)
                 snakePosition.Y = snakePosition.Y + 20;
             if (snake[0].direction == GameObject.Direction.LEFT)
@@ -181,9 +178,41 @@ namespace SnakeGamePlatform
             if (snake[0].direction == GameObject.Direction.DOWN)
                 snakePosition.X = snakePosition.X + 20;
             snake[0].SetPosition(snakePosition);
-            snake[1].SetPosition(mem);
 
+        }
 
+        void LoseCondition(Board board)
+        {
+            if (borderUp.IntersectWith(snake[0]) || borderRight.IntersectWith(snake[0]) || borderLeft.IntersectWith(snake[0]) || borderDown.IntersectWith(snake[0]))
+            {
+                Position failPosition = new Position(150, 50);
+                failMessage = new TextLabel("you lost", failPosition);
+                failMessage.SetFont("Pixelate", 14);
+                board.AddLabel(failMessage);
+                board.StopTimer();
+            }
+
+            for(int i = snakeSize -1; i > 1; i--)
+            {
+                if (snake[0].IntersectWith(snake[i]))
+                {
+                    Position failPosition = new Position(150, 50);
+                    failMessage = new TextLabel("you lost", failPosition);
+                    failMessage.SetFont("Ariel", 14);
+                    board.AddLabel(failMessage);
+                    board.StopTimer();
+                }
+            }
+        }
+
+        //This function is called frequently based on the game board interval that was set when starting the timer!
+        //Use this function to move game objects and check collisions
+        public void GameClock(Board board)
+        {
+
+            LoseCondition(board);
+            SnakeMovment();
+            HandleSnakeEatsnake(board);
         }
 
         //This function is called by the game when the user press a key down on the keyboard.
