@@ -65,16 +65,16 @@ namespace SnakeGamePlatform
             //Play file in loop!
             board.PlayBackgroundMusic(@"\Images\gameSound.wav");
 
-            Position borderUPpos = new Position(100, 50);
+            Position borderUPpos = new Position(100, 60);
             borderUp = new GameObject(borderUPpos, 650, 10);
 
-            Position borderRightpos = new Position(100, 700);
-            borderRight = new GameObject(borderRightpos, 10, 410);
+            Position borderRightpos = new Position(100, 710);
+            borderRight = new GameObject(borderRightpos, 10, 400);
 
-            Position borderLeftpos = new Position(100, 50);
+            Position borderLeftpos = new Position(100, 60);
             borderLeft = new GameObject(borderLeftpos, 10, 400);
 
-            Position borderDownpos = new Position(500,50 );
+            Position borderDownpos = new Position(490,60 );
             borderDown = new GameObject(borderDownpos, 650, 10);
             //borderUpp = new GameObject(borderUP, 20, 30);
 
@@ -107,8 +107,8 @@ namespace SnakeGamePlatform
             {
                 score++;
                 lblScore.SetText(score.ToString());
-                int x = r.Next(40, 500);
-                int y = r.Next(40, 700);
+                int x = r.Next(130, 450);
+                int y = r.Next(70, 700);
                 Position foodPosition = new Position(x, y);
                 food.SetPosition(foodPosition);
                 //Play file once!
@@ -122,7 +122,7 @@ namespace SnakeGamePlatform
         {
             Position labelPosition = new Position(20, 20);
             lblScore = new TextLabel("0", labelPosition);
-            lblScore.SetFont("Ariel", 14);
+            lblScore.SetFont("Ariel", 30);
             board.AddLabel(lblScore);
 
             r = new Random();
@@ -154,14 +154,7 @@ namespace SnakeGamePlatform
 
 
             HandleSnakeEatsnake(board);
-            if (borderUp.IntersectWith(snake[0]) || borderRight.IntersectWith(snake[0]) || borderLeft.IntersectWith(snake[0]) || borderDown.IntersectWith(snake[0]))
-            {
-                Position failPosition = new Position(150, 50);
-                failMessage = new TextLabel("you lost", failPosition);
-                failMessage.SetFont("Ariel", 14);
-                board.AddLabel(failMessage);
-                board.StopTimer();
-            }
+            
 
             Position snakePosition = snake[0].GetPosition();
             Position mem = snake[0].GetPosition();
@@ -176,6 +169,14 @@ namespace SnakeGamePlatform
             snake[0].SetPosition(snakePosition);
             snake[1].SetPosition(mem);
 
+            if (borderUp.IntersectWith(snake[0]) || borderRight.IntersectWith(snake[0]) || borderLeft.IntersectWith(snake[0]) || borderDown.IntersectWith(snake[0]))
+            {
+                Position failPosition = new Position(150, 50);
+                failMessage = new TextLabel("you lost", failPosition);
+                failMessage.SetFont("Ariel", 14);
+                board.AddLabel(failMessage);
+                board.StopTimer();
+            }
 
         }
 
