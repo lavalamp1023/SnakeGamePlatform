@@ -154,7 +154,14 @@ namespace SnakeGamePlatform
 
 
             HandleSnakeEatsnake(board);
-            
+            if (borderUp.IntersectWith(snake[0]) || borderRight.IntersectWith(snake[0]) || borderLeft.IntersectWith(snake[0]) || borderDown.IntersectWith(snake[0]))
+            {
+                Position failPosition = new Position(150, 50);
+                failMessage = new TextLabel("you lost", failPosition);
+                failMessage.SetFont("Pixelate", 14);
+                board.AddLabel(failMessage);
+                board.StopTimer();
+            }
 
             Position snakePosition = snake[0].GetPosition();
             Position mem = snake[0].GetPosition();
@@ -178,6 +185,14 @@ namespace SnakeGamePlatform
                 board.StopTimer();
             }
 
+            if (borderUp.IntersectWith(snake[0]) || borderRight.IntersectWith(snake[0]) || borderLeft.IntersectWith(snake[0]) || borderDown.IntersectWith(snake[0]))
+            {
+                Position failPosition = new Position(150, 50);
+                failMessage = new TextLabel("you lost", failPosition);
+                failMessage.SetFont("Ariel", 14);
+                board.AddLabel(failMessage);
+                board.StopTimer();
+            }
         }
 
         //This function is called by the game when the user press a key down on the keyboard.
