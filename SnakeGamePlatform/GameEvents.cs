@@ -158,7 +158,7 @@ namespace SnakeGamePlatform
             {
                 Position failPosition = new Position(150, 50);
                 failMessage = new TextLabel("you lost", failPosition);
-                failMessage.SetFont("Ariel", 14);
+                failMessage.SetFont("Pixelate", 14);
                 board.AddLabel(failMessage);
                 board.StopTimer();
             }
