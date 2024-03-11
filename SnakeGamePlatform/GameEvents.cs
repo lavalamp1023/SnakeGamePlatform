@@ -67,17 +67,17 @@ namespace SnakeGamePlatform
             //Play file in loop!
             board.PlayBackgroundMusic(@"\Images\gameSound.wav");
 
-            Position borderUPpos = new Position(100, 100);
-            borderUp = new GameObject(borderUPpos, 300, 10);
+            Position borderUPpos = new Position(100, 60);
+            borderUp = new GameObject(borderUPpos, 650, 10);
 
-            Position borderRightpos = new Position(100, 500);
-            borderRight = new GameObject(borderRightpos, 10, 300);
+            Position borderRightpos = new Position(100, 710);
+            borderRight = new GameObject(borderRightpos, 10, 400);
 
-            Position borderLeftpos = new Position(500, 100);
-            borderLeft = new GameObject(borderLeftpos, 300, 10);
+            Position borderLeftpos = new Position(100, 60);
+            borderLeft = new GameObject(borderLeftpos, 10, 400);
 
-            Position borderDownpos = new Position(500, 100);
-            borderDown = new GameObject(borderDownpos, 300, 10);
+            Position borderDownpos = new Position(490,60 );
+            borderDown = new GameObject(borderDownpos, 650, 10);
             //borderUpp = new GameObject(borderUP, 20, 30);
 
             borderUp.SetBackgroundColor(Color.Black);
@@ -127,7 +127,7 @@ namespace SnakeGamePlatform
         {
             Position labelPosition = new Position(20, 20);
             lblScore = new TextLabel("0", labelPosition);
-            lblScore.SetFont("Ariel", 14);
+            lblScore.SetFont("Ariel", 30);
             board.AddLabel(lblScore);
 
             r = new Random();
@@ -178,7 +178,7 @@ namespace SnakeGamePlatform
             {
                 Position failPosition = new Position(150, 50);
                 failMessage = new TextLabel("you lost", failPosition);
-                failMessage.SetFont("Ariel", 14);
+                failMessage.SetFont("Pixelate", 14);
                 board.AddLabel(failMessage);
                 board.StopTimer();
             }
