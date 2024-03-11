@@ -65,16 +65,16 @@ namespace SnakeGamePlatform
             //Play file in loop!
             board.PlayBackgroundMusic(@"\Images\gameSound.wav");
 
-            Position borderUPpos = new Position(100, 50);
+            Position borderUPpos = new Position(100, 60);
             borderUp = new GameObject(borderUPpos, 650, 10);
 
-            Position borderRightpos = new Position(100, 700);
-            borderRight = new GameObject(borderRightpos, 10, 410);
+            Position borderRightpos = new Position(100, 710);
+            borderRight = new GameObject(borderRightpos, 10, 400);
 
-            Position borderLeftpos = new Position(100, 50);
+            Position borderLeftpos = new Position(100, 60);
             borderLeft = new GameObject(borderLeftpos, 10, 400);
 
-            Position borderDownpos = new Position(500,50 );
+            Position borderDownpos = new Position(490,60 );
             borderDown = new GameObject(borderDownpos, 650, 10);
             //borderUpp = new GameObject(borderUP, 20, 30);
 
@@ -177,6 +177,14 @@ namespace SnakeGamePlatform
             snake[1].SetPosition(mem);
 
 
+            if (borderUp.IntersectWith(snake[0]) || borderRight.IntersectWith(snake[0]) || borderLeft.IntersectWith(snake[0]) || borderDown.IntersectWith(snake[0]))
+            {
+                Position failPosition = new Position(150, 50);
+                failMessage = new TextLabel("you lost", failPosition);
+                failMessage.SetFont("Ariel", 14);
+                board.AddLabel(failMessage);
+                board.StopTimer();
+            }
         }
 
         //This function is called by the game when the user press a key down on the keyboard.
