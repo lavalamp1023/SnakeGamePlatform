@@ -120,13 +120,21 @@ namespace SnakeGamePlatform
             if (food.IntersectWith(snake[0]))
             {
                 score++;
-                lblScore.SetText(score.ToString());
+                lblScore.SetText($"Score: {score.ToString()}");
                 snake[snakeSize] = GenrateNewSnakePart(snake[snakeSize - 1].GetPosition().X, snake[snakeSize -1].GetPosition().Y);
                 board.AddGameObject(snake[snakeSize]);
                 board.AddGameObject(backgroundobj);
                 snakeSize++;
-                int x = r.Next(70, 450);
-                int y = r.Next(70, 740);
+                int x = r.Next(120, 450);
+                int y = r.Next(70, 720);
+                for (int i = 1; i < snakeSize; i++)
+                {
+                    while (food.IntersectWith(snake[i]))
+                    {
+                        x = r.Next(120, 450);
+                        y = r.Next(70, 700);
+                    }
+                }
                 Position foodPosition = new Position(x, y);
                 food.SetPosition(foodPosition);
                 //Play file once!
@@ -145,14 +153,24 @@ namespace SnakeGamePlatform
 
             r = new Random();
             score = 0;
-            int x = r.Next(70, 450);
-            int y = r.Next(70, 740);
+            int x = r.Next(120, 450);
+            int y = r.Next(70, 700);
+            for (int i = 1; i < snakeSize; i++)
+            { 
+                while (food.IntersectWith(snake[i]))
+                {
+                    x = r.Next(120, 450);
+                    y = r.Next(70, 700);
+                }
+            }
             Position foodPosition = new Position(x, y);
             food = new GameObject(foodPosition, 20, 20);
             food.SetImage(Properties.Resources.food);
             board.AddGameObject(food);
 
         }
+
+        //makes a new snake part
         GameObject GenrateNewSnakePart(int lastSnakePartX,int lastSnakePartY)
         {
             GameObject snake;
@@ -163,6 +181,7 @@ namespace SnakeGamePlatform
             return snake;
         }
 
+        //moves the snake
         void SnakeMovment()
         {
             for (int i = snakeSize-1;i > 0;i--)
@@ -184,6 +203,7 @@ namespace SnakeGamePlatform
 
         }
 
+        // checks if the player lost
         void LoseCondition(Board board)
         {
             if (borderUp.IntersectWith(snake[0]) || borderRight.IntersectWith(snake[0]) || borderLeft.IntersectWith(snake[0]) || borderDown.IntersectWith(snake[0]))
@@ -207,6 +227,9 @@ namespace SnakeGamePlatform
                 }
             }
         }
+
+        //pauseing the game
+
 
         //This function is called frequently based on the game board interval that was set when starting the timer!
         //Use this function to move game objects and check collisions
