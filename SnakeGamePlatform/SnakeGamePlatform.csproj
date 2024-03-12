@@ -124,9 +124,6 @@
     <None Include="Images\gameSound.wav" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Images\eat.wav" />
-  </ItemGroup>
-  <ItemGroup>
     <COMReference Include="WMPLib">
       <Guid>{6BF52A50-394A-11D3-B153-00C04F79FAA6}</Guid>
       <VersionMajor>1</VersionMajor>
@@ -138,10 +135,12 @@
     </COMReference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Images\background.wav" />
     <Content Include="Images\green-background.jpg" />
     <Content Include="Images\jungle-background.jpg" />
     <Content Include="Images\kuku.mp3" />
     <Content Include="Images\kuku.wav" />
+    <Content Include="Images\yonik.wav" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

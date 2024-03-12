@@ -102,7 +102,7 @@ namespace SnakeGamePlatform
 
 
             //Play file in loop!
-            board.PlayBackgroundMusic(@"\Images\gameSound.wav");
+            board.PlayBackgroundMusic(@"\Images\background.wav");
 
             //Start game timer!
             board.StartTimer(100);            
@@ -138,7 +138,7 @@ namespace SnakeGamePlatform
                 Position foodPosition = new Position(x, y);
                 food.SetPosition(foodPosition);
                 //Play file once!
-                board.PlayShortMusic(@"\Images\eat.wav");
+                board.PlayShortMusic(@"\Images\yonik.wav");
             }
         }
         //הפעולה יוצרת את האוכל
