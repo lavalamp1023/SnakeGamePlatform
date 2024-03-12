@@ -147,7 +147,7 @@ namespace SnakeGamePlatform
         void InitFood(Board board)
         {
             Position labelPosition = new Position(20, 20);
-            lblScore = new TextLabel("0", labelPosition);
+            lblScore = new TextLabel("Score: 0", labelPosition);
             lblScore.SetFont("Ariel", 30);
             board.AddLabel(lblScore);
 
