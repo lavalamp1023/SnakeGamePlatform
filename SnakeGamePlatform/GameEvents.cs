@@ -48,19 +48,6 @@ namespace SnakeGamePlatform
         {
             InitFood(board);
 
-            //Setup board size,background and resolution!
-            Board.resolutionFactor = 1;
-            board.XSize = 600;
-            board.YSize = 800;
-            board.SetBackgroundImage(Properties.Resources.jungle_background);
-            board.SetBackgroundColor(Color.DarkOliveGreen);
-            Position backgroundPosition = new Position(100, 60);
-            backgroundobj = new GameObject(backgroundPosition, 650,390);
-            backgroundobj.SetImage(Properties.Resources.green_background);
-            board.AddGameObject(backgroundobj);
-
-            //Adding Game Object
-
 
             Position snakePosition = new Position(200, 100);
             snake[0] = new GameObject(snakePosition, 20, 20);
@@ -74,8 +61,6 @@ namespace SnakeGamePlatform
             snake[1].direction = GameObject.Direction.RIGHT;
             board.AddGameObject(snake[1]);
             snakeSize = 2;
-            //Play file in loop!
-            board.PlayBackgroundMusic(@"\Images\gameSound.wav");
 
             Position borderUPpos = new Position(100, 60);
             borderUp = new GameObject(borderUPpos, 650, 10);
@@ -86,7 +71,7 @@ namespace SnakeGamePlatform
             Position borderLeftpos = new Position(100, 60);
             borderLeft = new GameObject(borderLeftpos, 10, 400);
 
-            Position borderDownpos = new Position(490,60 );
+            Position borderDownpos = new Position(490, 60);
             borderDown = new GameObject(borderDownpos, 650, 10);
             //borderUpp = new GameObject(borderUP, 20, 30);
 
@@ -101,6 +86,23 @@ namespace SnakeGamePlatform
 
             borderDown.SetBackgroundColor(Color.Black);
             board.AddGameObject(borderDown);
+
+            //Setup board size,background and resolution!
+            Board.resolutionFactor = 1;
+            board.XSize = 600;
+            board.YSize = 800;
+            board.SetBackgroundImage(Properties.Resources.jungle_background);
+            board.SetBackgroundColor(Color.DarkOliveGreen);
+            Position backgroundPosition = new Position(100, 60);
+            backgroundobj = new GameObject(backgroundPosition, 650,390);
+            backgroundobj.SetImage(Properties.Resources.green_background);
+            board.AddGameObject(backgroundobj);
+
+            //Adding Game Object
+
+
+            //Play file in loop!
+            board.PlayBackgroundMusic(@"\Images\gameSound.wav");
 
             //Start game timer!
             board.StartTimer(200);            
@@ -121,9 +123,10 @@ namespace SnakeGamePlatform
                 lblScore.SetText(score.ToString());
                 snake[snakeSize] = GenrateNewSnakePart(snake[snakeSize - 1].GetPosition().X, snake[snakeSize -1].GetPosition().Y);
                 board.AddGameObject(snake[snakeSize]);
+                board.AddGameObject(backgroundobj);
                 snakeSize++;
-                int x = r.Next(40, 500);
-                int y = r.Next(40, 700);
+                int x = r.Next(70, 450);
+                int y = r.Next(70, 740);
                 Position foodPosition = new Position(x, y);
                 food.SetPosition(foodPosition);
                 //Play file once!
@@ -142,8 +145,8 @@ namespace SnakeGamePlatform
 
             r = new Random();
             score = 0;
-            int x = r.Next(40, 500);
-            int y = r.Next(40, 700);
+            int x = r.Next(70, 450);
+            int y = r.Next(70, 740);
             Position foodPosition = new Position(x, y);
             food = new GameObject(foodPosition, 20, 20);
             food.SetImage(Properties.Resources.food);
@@ -185,9 +188,9 @@ namespace SnakeGamePlatform
         {
             if (borderUp.IntersectWith(snake[0]) || borderRight.IntersectWith(snake[0]) || borderLeft.IntersectWith(snake[0]) || borderDown.IntersectWith(snake[0]))
             {
-                Position failPosition = new Position(150, 50);
+                Position failPosition = new Position(25, 350);
                 failMessage = new TextLabel("you lost", failPosition);
-                failMessage.SetFont("Pixelate", 14);
+                failMessage.SetFont("Gigi", 25);
                 board.AddLabel(failMessage);
                 board.StopTimer();
             }
@@ -196,9 +199,9 @@ namespace SnakeGamePlatform
             {
                 if (snake[0].IntersectWith(snake[i]))
                 {
-                    Position failPosition = new Position(150, 50);
+                    Position failPosition = new Position(25, 350);
                     failMessage = new TextLabel("you lost", failPosition);
-                    failMessage.SetFont("Ariel", 14);
+                    failMessage.SetFont("Gigi", 25);
                     board.AddLabel(failMessage);
                     board.StopTimer();
                 }
@@ -209,7 +212,6 @@ namespace SnakeGamePlatform
         //Use this function to move game objects and check collisions
         public void GameClock(Board board)
         {
-
             LoseCondition(board);
             SnakeMovment();
             HandleSnakeEatsnake(board);
