@@ -105,7 +105,7 @@ namespace SnakeGamePlatform
             board.PlayBackgroundMusic(@"\Images\gameSound.wav");
 
             //Start game timer!
-            board.StartTimer(200);            
+            board.StartTimer(100);            
 
            
         }
@@ -126,13 +126,13 @@ namespace SnakeGamePlatform
                 board.AddGameObject(backgroundobj);
                 snakeSize++;
                 int x = r.Next(120, 450);
-                int y = r.Next(70, 720);
+                int y = r.Next(70, 670);
                 for (int i = 1; i < snakeSize; i++)
                 {
                     while (food.IntersectWith(snake[i]))
                     {
                         x = r.Next(120, 450);
-                        y = r.Next(70, 690);
+                        y = r.Next(70, 670);
                     }
                 }
                 Position foodPosition = new Position(x, y);
@@ -154,13 +154,13 @@ namespace SnakeGamePlatform
             r = new Random();
             score = 0;
             int x = r.Next(120, 450);
-            int y = r.Next(70, 700);
+            int y = r.Next(70, 670);
             for (int i = 1; i < snakeSize; i++)
             { 
                 while (food.IntersectWith(snake[i]))
                 {
                     x = r.Next(120, 450);
-                    y = r.Next(70, 700);
+                    y = r.Next(70, 670);
                 }
             }
             Position foodPosition = new Position(x, y);
@@ -234,6 +234,12 @@ namespace SnakeGamePlatform
             board.StopTimer();
         }
 
+        //Continues the game
+        void ContinueGame(Board board)
+        {
+            board.StartTimer(200);
+        }
+
         //This function is called frequently based on the game board interval that was set when starting the timer!
         //Use this function to move game objects and check collisions
         public void GameClock(Board board)
@@ -257,8 +263,14 @@ namespace SnakeGamePlatform
                 snake[0].direction = GameObject.Direction.UP;
             if (key == (char)ConsoleKey.DownArrow)
                 snake[0].direction = GameObject.Direction.DOWN;
+            if (key == (char)ConsoleKey.P)
+            {
+                PauseGame(board);
+            }
+            if (key == (char)ConsoleKey.O)
+            {
+                ContinueGame(board);
+            }
         }
-
-
     }
 }
