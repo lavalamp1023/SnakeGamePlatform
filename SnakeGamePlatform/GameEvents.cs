@@ -125,16 +125,16 @@ namespace SnakeGamePlatform
                 board.AddGameObject(snake[snakeSize]);
                 board.AddGameObject(backgroundobj);
                 snakeSize++;
-                int x = r.Next(120, 450);
-                int y = r.Next(70, 670);
-                for (int i = 1; i < snakeSize; i++)
-                {
-                    while (food.IntersectWith(snake[i]))
-                    {
-                        x = r.Next(120, 450);
-                        y = r.Next(70, 670);
-                    }
-                }
+                int x = r.Next(120, 460);
+                int y = r.Next(60, 680);
+                //for (int i = 1; i < snakeSize; i++)
+                //{
+                //    while (food.IntersectWith(snake[i]))
+                //    {
+                //        x = r.Next(120, 450);
+                //        y = r.Next(70, 670);
+                //    }
+                //}
                 Position foodPosition = new Position(x, y);
                 food.SetPosition(foodPosition);
                 //Play file once!
@@ -153,16 +153,16 @@ namespace SnakeGamePlatform
 
             r = new Random();
             score = 0;
-            int x = r.Next(120, 450);
-            int y = r.Next(70, 670);
-            for (int i = 1; i < snakeSize; i++)
-            { 
-                while (food.IntersectWith(snake[i]))
-                {
-                    x = r.Next(120, 450);
-                    y = r.Next(70, 670);
-                }
-            }
+            int x = r.Next(120, 460);
+            int y = r.Next(60, 680);
+            //for (int i = 1; i < snakeSize; i++)
+            //{ 
+            //    while (food.IntersectWith(snake[i]))
+            //    {
+            //        x = r.Next(120, 460);
+            //        y = r.Next(60, 680);
+            //    }
+            //}
             Position foodPosition = new Position(x, y);
             food = new GameObject(foodPosition, 20, 20);
             food.SetImage(Properties.Resources.food);
