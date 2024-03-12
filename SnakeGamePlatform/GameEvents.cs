@@ -120,7 +120,7 @@ namespace SnakeGamePlatform
             if (food.IntersectWith(snake[0]))
             {
                 score++;
-                lblScore.SetText($"Score: {score.ToString()}");
+                lblScore.SetText($"Yoinks: {score.ToString()}");
                 snake[snakeSize] = GenrateNewSnakePart(snake[snakeSize - 1].GetPosition().X, snake[snakeSize -1].GetPosition().Y);
                 board.AddGameObject(snake[snakeSize]);
                 board.AddGameObject(backgroundobj);
@@ -132,7 +132,7 @@ namespace SnakeGamePlatform
                     while (food.IntersectWith(snake[i]))
                     {
                         x = r.Next(120, 450);
-                        y = r.Next(70, 700);
+                        y = r.Next(70, 690);
                     }
                 }
                 Position foodPosition = new Position(x, y);
@@ -147,7 +147,7 @@ namespace SnakeGamePlatform
         void InitFood(Board board)
         {
             Position labelPosition = new Position(20, 20);
-            lblScore = new TextLabel("Score: 0", labelPosition);
+            lblScore = new TextLabel("Yoinks: 0", labelPosition);
             lblScore.SetFont("Ariel", 30);
             board.AddLabel(lblScore);
 
@@ -229,7 +229,10 @@ namespace SnakeGamePlatform
         }
 
         //pauseing the game
-
+        void PauseGame(Board board)
+        {
+            board.StopTimer();
+        }
 
         //This function is called frequently based on the game board interval that was set when starting the timer!
         //Use this function to move game objects and check collisions
