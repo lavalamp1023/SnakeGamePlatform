@@ -107,7 +107,7 @@ namespace SnakeGamePlatform
             board.PlayBackgroundMusic(@"\Images\background.wav");
 
             //Start game timer!
-            board.StartTimer(100);            
+            board.StartTimer(200);            
 
            
         }
@@ -144,7 +144,7 @@ namespace SnakeGamePlatform
                 if (counter < 200)
                 {
                     speed = 200;
-                    speed = speed - counter;
+                    speed = speed - (counter*4);
                 }
                 board.StartTimer(speed);
             }
