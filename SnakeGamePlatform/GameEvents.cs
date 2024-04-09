@@ -54,6 +54,7 @@ namespace SnakeGamePlatform
 
             if (!reseted)
             {
+                board.SetGameBoardTitle("+<Snake Reversed>+");
                 Position snakePosition = new Position(200, 100);
                 snake[0] = new GameObject(snakePosition, 20, 20);
                 snake[0].SetImage(Properties.Resources.food);
@@ -128,7 +129,7 @@ namespace SnakeGamePlatform
             board.PlayBackgroundMusic(@"\Images\background.wav");
 
             //Start game timer!
-            board.StartTimer(100);            
+            board.StartTimer(200);            
 
            
         }
@@ -165,7 +166,7 @@ namespace SnakeGamePlatform
                 if (counter < 200)
                 {
                     speed = 200;
-                    speed = speed - counter;
+                    speed = speed - ((score * 2) - 2);
                 }
                 board.StartTimer(speed);
             }
@@ -238,27 +239,16 @@ namespace SnakeGamePlatform
             if (borderUp.IntersectWith(snake[0]) || borderRight.IntersectWith(snake[0]) || borderLeft.IntersectWith(snake[0]) || borderDown.IntersectWith(snake[0]))
             {
                 Position failPosition = new Position(25, 350);
-                failMessage = new TextLabel("you lost", failPosition);
+                failMessage = new TextLabel("you lost, press space to restart", failPosition);
                 failMessage.SetFont("Gigi", 25);
                 board.AddLabel(failMessage);
                 board.StopTimer();
+                died = true;
             }
 
             for(int i = snakeSize -1; i > 1; i--)
             {
                 if (snake[0].IntersectWith(snake[i]))
-                {
-                    Position failPosition = new Position(25, 350);
-                    failMessage = new TextLabel("you lost", failPosition);
-                    failMessage.SetFont("Gigi", 25);
-                    board.AddLabel(failMessage);
-                    board.StopTimer();
-                }
-            }
-
-            if (snakeSize > 2)
-            {
-                if (snake[0].IntersectWith(snake[2]))
                 {
                     Position failPosition = new Position(25, 350);
                     failMessage = new TextLabel("you lost, press space to restart", failPosition);
@@ -267,7 +257,6 @@ namespace SnakeGamePlatform
                     board.StopTimer();
                     died = true;
                 }
-
             }
         }
 
