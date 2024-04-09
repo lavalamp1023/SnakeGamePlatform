@@ -30,8 +30,9 @@ namespace SnakeGamePlatform
         GameObject backgroundobj;
         int speed = 200;
 
+        bool died;
+        bool reseted = false;
 
-  
         TextLabel lblScore;
         GameObject food;
         
@@ -51,18 +52,38 @@ namespace SnakeGamePlatform
             InitFood(board);
 
 
-            Position snakePosition = new Position(200, 100);
-            snake[0] = new GameObject(snakePosition, 20, 20);
-            snake[0].SetImage(Properties.Resources.food);
-            snake[0].direction = GameObject.Direction.RIGHT;
-            board.AddGameObject(snake[0]);
+            if (!reseted)
+            {
+                Position snakePosition = new Position(200, 100);
+                snake[0] = new GameObject(snakePosition, 20, 20);
+                snake[0].SetImage(Properties.Resources.food);
+                snake[0].direction = GameObject.Direction.RIGHT;
+                board.AddGameObject(snake[0]);
 
-            Position snake1Position = new Position(200, 80);
-            snake[1] = new GameObject(snake1Position, 20, 20);
-            snake[1].SetImage(Properties.Resources.food);
-            snake[1].direction = GameObject.Direction.RIGHT;
-            board.AddGameObject(snake[1]);
+                Position snake1Position = new Position(200, 80);
+                snake[1] = new GameObject(snake1Position, 20, 20);
+                snake[1].SetImage(Properties.Resources.food);
+                snake[1].direction = GameObject.Direction.RIGHT;
+                board.AddGameObject(snake[1]);
+            }
+
+            else
+            {
+                Position snakePosition = new Position(200, 100);
+                snake[0].SetPosition(snakePosition);
+                snake[0].SetImage(Properties.Resources.food);
+                snake[0].direction = GameObject.Direction.RIGHT;
+                board.AddGameObject(snake[0]);
+                Position snake1Position = new Position(200, 80);
+                snake[1].SetPosition(snake1Position);
+                snake[0].SetImage(Properties.Resources.food);
+                snake[1].direction = GameObject.Direction.RIGHT;
+                board.AddGameObject(snake[1]);
+                board.RemoveGameObject(backgroundobj);
+                reseted = false;
+            }
             snakeSize = 2;
+
 
             Position borderUPpos = new Position(100, 60);
             borderUp = new GameObject(borderUPpos, 650, 10);
@@ -234,7 +255,37 @@ namespace SnakeGamePlatform
                     board.StopTimer();
                 }
             }
+
+            if (snakeSize > 2)
+            {
+                if (snake[0].IntersectWith(snake[2]))
+                {
+                    Position failPosition = new Position(25, 350);
+                    failMessage = new TextLabel("you lost, press space to restart", failPosition);
+                    failMessage.SetFont("Gigi", 25);
+                    board.AddLabel(failMessage);
+                    board.StopTimer();
+                    died = true;
+                }
+
+            }
         }
+
+        void Reset(Board board)
+        {
+            board.RemoveLabel(failMessage);
+            board.RemoveLabel(lblScore);
+            board.RemoveGameObject(food);
+            for (int i = snakeSize - 1; i > 1; i--)
+            {
+                board.RemoveGameObject(snake[i]);
+                snake[i] = null;
+            }
+            died = false;
+            reseted = true;
+            GameInit(board);
+        }
+
 
         //pauseing the game
         void PauseGame(Board board)
@@ -278,6 +329,11 @@ namespace SnakeGamePlatform
             if (key == (char)ConsoleKey.O)
             {
                 ContinueGame(board);
+            }
+
+            if (key == (char)ConsoleKey.Spacebar && died == true)
+            {
+                Reset(board);
             }
         }
     }
