@@ -28,6 +28,7 @@ namespace SnakeGamePlatform
         GameObject[] snake = new GameObject[14200];
         int snakeSize;
         GameObject backgroundobj;
+        int speed = 200;
 
 
   
@@ -38,6 +39,7 @@ namespace SnakeGamePlatform
 
         Random r;
         int score;
+        int counter;
         //This function is called by the game one time on initialization!
         //Here you should define game board resolution and size (x,y).
         //Here you should initialize all variables defined above and create all visual objects on screen.
@@ -139,6 +141,12 @@ namespace SnakeGamePlatform
                 food.SetPosition(foodPosition);
                 //Play file once!
                 board.PlayShortMusic(@"\Images\yonik.wav");
+                if (counter < 200)
+                {
+                    speed = 200;
+                    speed = speed - counter;
+                }
+                board.StartTimer(speed);
             }
         }
         //הפעולה יוצרת את האוכל
