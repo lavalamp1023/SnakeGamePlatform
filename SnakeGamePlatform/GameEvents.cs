@@ -11,6 +11,7 @@ using System.Net;
 using System.Diagnostics;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement.TrayNotify;
 using System.Reflection;
+using System.Diagnostics.Eventing.Reader;
 
 namespace SnakeGamePlatform
 {
@@ -41,12 +42,7 @@ namespace SnakeGamePlatform
         Random r;
         int score;
         int counter;
-        //This function is called by the game one time on initialization!
-        //Here you should define game board resolution and size (x,y).
-        //Here you should initialize all variables defined above and create all visual objects on screen.
-        //You could also start game background music here.
 
-        //use board Object to add game objects to the game board, play background music, set interval, etc...
         public void GameInit(Board board)
         {
             InitFood(board);
@@ -57,13 +53,13 @@ namespace SnakeGamePlatform
                 board.SetGameBoardTitle("+<Snake Reversed>+");
                 Position snakePosition = new Position(200, 100);
                 snake[0] = new GameObject(snakePosition, 20, 20);
-                snake[0].SetImage(Properties.Resources.food);
+                snake[0].SetImage(Properties.Resources.smily);
                 snake[0].direction = GameObject.Direction.RIGHT;
                 board.AddGameObject(snake[0]);
 
                 Position snake1Position = new Position(200, 80);
                 snake[1] = new GameObject(snake1Position, 20, 20);
-                snake[1].SetImage(Properties.Resources.food);
+                snake[1].SetImage(Properties.Resources.net);
                 snake[1].direction = GameObject.Direction.RIGHT;
                 board.AddGameObject(snake[1]);
             }
@@ -72,12 +68,12 @@ namespace SnakeGamePlatform
             {
                 Position snakePosition = new Position(200, 100);
                 snake[0].SetPosition(snakePosition);
-                snake[0].SetImage(Properties.Resources.food);
+                snake[0].SetImage(Properties.Resources.smily);
                 snake[0].direction = GameObject.Direction.RIGHT;
                 board.AddGameObject(snake[0]);
                 Position snake1Position = new Position(200, 80);
                 snake[1].SetPosition(snake1Position);
-                snake[0].SetImage(Properties.Resources.food);
+                snake[1].SetImage(Properties.Resources.net);
                 snake[1].direction = GameObject.Direction.RIGHT;
                 board.AddGameObject(snake[1]);
                 board.RemoveGameObject(backgroundobj);
@@ -147,26 +143,53 @@ namespace SnakeGamePlatform
                 lblScore.SetText($"Yoinks: {score.ToString()}");
                 snake[snakeSize] = GenrateNewSnakePart(snake[snakeSize - 1].GetPosition().X, snake[snakeSize -1].GetPosition().Y);
                 board.AddGameObject(snake[snakeSize]);
-                board.AddGameObject(backgroundobj);
+                
                 snakeSize++;
                 int x = r.Next(120, 460);
-                int y = r.Next(60, 680);
-                //for (int i = 1; i < snakeSize; i++)
-                //{
-                //    while (food.IntersectWith(snake[i]))
-                //    {
-                //        x = r.Next(120, 450);
-                //        y = r.Next(70, 670);
-                //    }
-                //}
+                int y = r.Next(80, 680);
+                
                 Position foodPosition = new Position(x, y);
                 food.SetPosition(foodPosition);
+                Random r2 = new Random();
+                switch(r2.Next(1,5))
+                {
+                    case 1:
+                    {
+                            food.SetImage(Properties.Resources.snake1);
+                            break;
+                    }
+
+                    case 2:
+                    {
+                            food.SetImage(Properties.Resources.snake2);
+                            break;
+                    }
+
+                    case 3:
+                        {
+                            food.SetImage(Properties.Resources.snake3);
+                            break;
+                        }
+
+                    case 4:
+                        {
+                            food.SetImage(Properties.Resources.snake4);
+                            break;
+                        }
+
+                    default:
+                        food.SetImage(Properties.Resources.snake4);
+                        break;
+                }
+                board.AddGameObject(food);
+                board.AddGameObject(backgroundobj);
+                
                 //Play file once!
                 board.PlayShortMusic(@"\Images\yonik.wav");
-                if (counter < 200)
+                if (counter < 150)
                 {
-                    speed = 200;
-                    speed = speed - ((score * 2) - 2);
+                    speed = 150;
+                    speed = speed - ((score * 2) - 50);
                 }
                 board.StartTimer(speed);
             }
@@ -195,9 +218,38 @@ namespace SnakeGamePlatform
             //}
             Position foodPosition = new Position(x, y);
             food = new GameObject(foodPosition, 20, 20);
-            food.SetImage(Properties.Resources.food);
-            board.AddGameObject(food);
+            Random r2 = new Random();
+            switch (r2.Next(1, 5))
+            {
+                case 1:
+                    {
+                        food.SetImage(Properties.Resources.snake1);
+                        break;
+                    }
 
+                case 2:
+                    {
+                        food.SetImage(Properties.Resources.snake2);
+                        break;
+                    }
+
+                case 3:
+                    {
+                        food.SetImage(Properties.Resources.snake3);
+                        break;
+                    }
+
+                case 4:
+                    {
+                        food.SetImage(Properties.Resources.snake4);
+                        break;
+                    }
+
+                default:
+                    food.SetImage(Properties.Resources.snake4);
+                    break;
+            }
+            board.AddGameObject(food);
         }
 
         //makes a new snake part
@@ -206,7 +258,27 @@ namespace SnakeGamePlatform
             GameObject snake;
             Position snakePosition = new Position(lastSnakePartX, lastSnakePartY);
             snake = new GameObject(snakePosition, 20, 20);
-            snake.SetImage(Properties.Resources.food);
+            Random rnd = new Random();
+            switch (rnd.Next(1,3))
+            {
+                case 1:
+                    {
+                        snake.SetImage(Properties.Resources.jar);
+                        break;
+                    }
+
+                case 2:
+                    {
+                        snake.SetImage(Properties.Resources.jar2);
+                        break;
+                    }
+
+                default:
+                    {
+                        snake.SetImage(Properties.Resources.jar2);
+                        break;
+                    }
+            }
             snake.direction = GameObject.Direction.RIGHT;
             return snake;
         }
@@ -240,7 +312,7 @@ namespace SnakeGamePlatform
             {
                 Position failPosition = new Position(25, 350);
                 failMessage = new TextLabel("you lost, press space to restart", failPosition);
-                failMessage.SetFont("Gigi", 25);
+                failMessage.SetFont("times new Roman", 25);
                 board.AddLabel(failMessage);
                 board.StopTimer();
                 died = true;

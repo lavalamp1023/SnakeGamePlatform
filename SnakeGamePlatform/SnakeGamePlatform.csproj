@@ -141,6 +141,14 @@
     <Content Include="Images\kuku.mp3" />
     <Content Include="Images\kuku.wav" />
     <Content Include="Images\yonik.wav" />
+    <None Include="Resources\net.jpg" />
+    <None Include="Resources\jar2.jpg" />
+    <None Include="Resources\snake4.jpg" />
+    <None Include="Resources\snake3.jpg" />
+    <None Include="Resources\snake2.jpg" />
+    <None Include="Resources\snake1.jpg" />
+    <None Include="Resources\jar.jpg" />
+    <None Include="Resources\סמיילי.jpg" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
